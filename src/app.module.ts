@@ -9,6 +9,6 @@ import { validationSchema } from './config/validation';
     isGlobal: true,
     load: [configuration],
     validationSchema
-  }), MongooseModule.forRoot('mongodb://localhost:27017/live')],
+  }), MongooseModule.forRoot(process.env.MONGO_URI)],
 })
 export class AppModule {}

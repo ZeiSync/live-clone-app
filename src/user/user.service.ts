@@ -15,7 +15,7 @@ export class UserService {
     return user;
   }
 
-  async findOne(options: object): Promise<User> {
+  async findOne(options: any): Promise<User> {
     const user = await this.userModle.findOne(options).lean();
     if (!user) {
       throw new NotFoundException('user_is_not_found');

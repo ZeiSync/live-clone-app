@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,8 +29,18 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = new this.userModle(createUserDto);
-    return createdUser.save();
+    try {
+      const createdUser = new this.userModle(createUserDto);
+
+      return await createdUser.save();
+    } catch (error) {
+      if (error.code === 11000) {
+        // dulicate email
+        throw new ConflictException('the_email_address_is_already_taken');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async update(updateUserDto: UpdateUserDto): Promise<User> {

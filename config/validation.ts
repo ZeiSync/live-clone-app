@@ -9,4 +9,7 @@ export const validationSchema = Joi.object({
   SECRET_KEY: Joi.string().required(),
   SENDGRID_API_KEY: Joi.string().required(),
   EMAIL: Joi.string().default('no-reply@6weeks.vn'),
+  CLIENT_ID: Joi.string().required(),
+  CLIENT_SECRET: Joi.string().required(),
+  CALLBACK_URL: Joi.string().required(),
 });

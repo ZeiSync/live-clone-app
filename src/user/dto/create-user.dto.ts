@@ -21,8 +21,8 @@ export class CreateUserDto {
     message: 'password_too_weak',
   })
   password?: string;
-
   picture?: string;
-
   locale?: string;
+  phone?: string;
+  description?: string;
 }

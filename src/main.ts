@@ -27,7 +27,7 @@ async function bootstrap() {
 
   const config = app.get(ConfigService);
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3006;
   await app.listen(port);
   logger.log(`Running on port ${process.env.PORT}`);
   logger.log(`Running in ${config.get('environment')} mode`);

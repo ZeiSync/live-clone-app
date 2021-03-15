@@ -56,8 +56,7 @@ export class AuthService {
       await sendEmail({ to: email, html: emailContent });
       const passwordHashed: string = await bcrypt.hash(randomString, 10);
       const user: CreateUserDto = {
-        name,
-        email,
+        ...signUpDto,
         password: passwordHashed,
       };
       await this.userService.create(user);
@@ -71,18 +70,25 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const { email } = googlePayload;
-    const user: User = await this.userService.findOne({ email });
-    if (!user) {
-      const createUserDto: CreateUserDto = {
+    try {
+      const user: User = await this.userService.findOne({ email });
+      console.log(user);
+      if (!user) {
+        const createUserDto: CreateUserDto = {
+          ...googlePayload,
+        };
+        await this.userService.create(createUserDto);
+        const accessToken = await this.jwtService.sign(createUserDto);
+        return { accessToken };
+      }
+      const updateUserDto: UpdateUserDto = {
         ...googlePayload,
       };
-      await this.userService.create(createUserDto);
-      const accessToken = await this.jwtService.sign(createUserDto);
+      await this.userService.update(updateUserDto);
+      const accessToken = await this.jwtService.sign(googlePayload);
       return { accessToken };
+    } catch (error) {
+      console.log(error);
     }
-    const updateUserDto: UpdateUserDto = { ...googlePayload };
-    await this.userService.update(updateUserDto);
-    const accessToken = await this.jwtService.sign(googlePayload);
-    return { accessToken };
   }
 }

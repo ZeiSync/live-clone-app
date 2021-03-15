@@ -2,7 +2,6 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
@@ -23,7 +22,7 @@ export class UserService {
   async findOne(options: any): Promise<User> {
     const user = await this.userModle.findOne(options).lean();
     if (!user) {
-      throw new NotFoundException('user_is_not_found');
+      return null;
     }
     return user;
   }
@@ -43,10 +42,16 @@ export class UserService {
     }
   }
 
-  async update(updateUserDto: UpdateUserDto): Promise<User> {
+  async update(updateUserDto: UpdateUserDto): Promise<any> {
     const { email } = updateUserDto;
-    const user = await this.findOne({ email });
-
-    return user;
+    try {
+      const user = await this.findOne({ email });
+      if (!user) {
+        return null;
+      }
+      return await this.userModle.updateOne(updateUserDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

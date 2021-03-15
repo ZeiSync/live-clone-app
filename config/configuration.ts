@@ -8,6 +8,6 @@ export const configuration = () => {
     email: process.env.EMAIL,
     client_id: process.env.CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET,
-    callback_url: process.env.callback_url,
+    callback_url: process.env.CALLBACK_URL,
   };
 };

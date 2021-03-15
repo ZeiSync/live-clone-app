@@ -6,5 +6,8 @@ export const configuration = () => {
     secret_key: process.env.SECRET_KEY,
     sendgrid_api_key: process.env.SENDGRID_API_KEY,
     email: process.env.EMAIL,
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    callback_url: process.env.callback_url,
   };
 };

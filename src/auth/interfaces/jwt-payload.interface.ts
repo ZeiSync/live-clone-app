@@ -7,3 +7,5 @@ export interface IJwtPayload {
   locale?: string;
   picture?: string;
 }
+
+export type IGooglePayload = IJwtPayload;

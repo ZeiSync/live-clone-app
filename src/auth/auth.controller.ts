@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
@@ -22,4 +23,18 @@ export class AuthController {
   async signUp(@Body(ValidationPipe) signUpDto: SignUpDto): Promise<void> {
     return this.authService.signUp(signUpDto);
   }
+
+  @Get('/google/signin')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+    // redirect to google authentication page
+  };
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req) {
+    console.log(req.user);
+    return this.authService.googleLogin(req);
+  }
+
 }

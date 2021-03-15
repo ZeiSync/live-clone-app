@@ -11,8 +11,12 @@ import { SignUpDto } from './dto/sign-up.dto';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/sign-in.dto';
 import { User } from 'src/user/schemas/user.schema';
-import { IJwtPayload } from './interfaces/jwt-payload.interface';
+import {
+  IGooglePayload,
+  IJwtPayload,
+} from './interfaces/jwt-payload.interface';
 import { renderEmailContent, sendEmail } from 'src/utils/sendmail';
+import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -45,7 +49,6 @@ export class AuthService {
 
     const data = { name, email, randomString };
     try {
-      console.log('email content rendering');
       const emailContent = await renderEmailContent({
         template: 'register',
         data,
@@ -61,5 +64,25 @@ export class AuthService {
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
+  }
+
+  async googleLogin(googlePayload: IGooglePayload) {
+    if (!googlePayload) {
+      throw new UnauthorizedException();
+    }
+    const { email } = googlePayload;
+    const user: User = await this.userService.findOne({ email });
+    if (!user) {
+      const createUserDto: CreateUserDto = {
+        ...googlePayload,
+      };
+      await this.userService.create(createUserDto);
+      const accessToken = await this.jwtService.sign(createUserDto);
+      return { accessToken };
+    }
+    const updateUserDto: UpdateUserDto = { ...googlePayload };
+    await this.userService.update(updateUserDto);
+    const accessToken = await this.jwtService.sign(googlePayload);
+    return { accessToken };
   }
 }

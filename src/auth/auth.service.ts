@@ -11,12 +11,10 @@ import { SignUpDto } from './dto/sign-up.dto';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './dto/sign-in.dto';
 import { User } from 'src/user/schemas/user.schema';
-import {
-  IGooglePayload,
-  IJwtPayload,
-} from './interfaces/jwt-payload.interface';
+import { IJwtPayload } from './interfaces/jwt-payload.interface';
 import { renderEmailContent, sendEmail } from 'src/utils/sendmail';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
+import { IGooglePayload } from './interfaces/google-payload-interface';
 
 @Injectable()
 export class AuthService {
@@ -69,10 +67,9 @@ export class AuthService {
     if (!googlePayload) {
       throw new UnauthorizedException();
     }
-    const { email } = googlePayload;
+    const { googleId } = googlePayload;
     try {
-      const user: User = await this.userService.findOne({ email });
-      console.log(user);
+      const user: User = await this.userService.findOne({ googleId });
       if (!user) {
         const createUserDto: CreateUserDto = {
           ...googlePayload,
@@ -82,13 +79,14 @@ export class AuthService {
         return { accessToken };
       }
       const updateUserDto: UpdateUserDto = {
+        _id: user['_id'],
         ...googlePayload,
       };
       await this.userService.update(updateUserDto);
       const accessToken = await this.jwtService.sign(googlePayload);
       return { accessToken };
     } catch (error) {
-      console.log(error);
+      throw new InternalServerErrorException();
     }
   }
 }

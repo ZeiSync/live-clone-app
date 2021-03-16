@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
@@ -13,9 +13,11 @@ import { User, UserDocument } from './schemas/user.schema';
 export class UserService {
   constructor(@InjectModel(User.name) private userModle: Model<UserDocument>) {}
 
-  async findById(_id: ObjectId): Promise<User> {
+  async findById(_id: Schema.Types.ObjectId): Promise<User> {
     const user: User = await this.userModle.findById(_id).lean();
-
+    if (!user) {
+      return null;
+    }
     return user;
   }
 
@@ -43,9 +45,9 @@ export class UserService {
   }
 
   async update(updateUserDto: UpdateUserDto): Promise<any> {
-    const { email } = updateUserDto;
+    const { _id } = updateUserDto;
     try {
-      const user = await this.findOne({ email });
+      const user = await this.findById(_id);
       if (!user) {
         return null;
       }

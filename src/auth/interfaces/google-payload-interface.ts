@@ -1,7 +1,4 @@
-import { Schema } from 'mongoose';
-
-export interface IJwtPayload {
-  _id?: Schema.Types.ObjectId;
+export interface IGooglePayload {
   name: string;
   description?: string;
   email: string;

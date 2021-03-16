@@ -37,5 +37,4 @@ export class AuthController {
   googleAuthRedirect(@GetUser() user: User) {
     return this.authService.googleLogin(user);
   }
-
 }

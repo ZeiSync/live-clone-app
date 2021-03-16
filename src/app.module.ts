@@ -5,6 +5,7 @@ import { configuration } from './config/configuration';
 import { validationSchema } from './config/validation';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { TransparentModule } from './transparent/transparent.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    TransparentModule,
   ],
 })
 export class AppModule {}

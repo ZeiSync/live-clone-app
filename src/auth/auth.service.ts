@@ -67,9 +67,9 @@ export class AuthService {
     if (!googlePayload) {
       throw new UnauthorizedException();
     }
-    const { googleId } = googlePayload;
+    const { email } = googlePayload;
     try {
-      const user: User = await this.userService.findOne({ googleId });
+      const user: User = await this.userService.findOne({ email });
       if (!user) {
         const createUserDto: CreateUserDto = {
           ...googlePayload,
@@ -82,11 +82,11 @@ export class AuthService {
         _id: user['_id'],
         ...googlePayload,
       };
-      await this.userService.update(updateUserDto);
+      await this.userService.update(user['_id'], updateUserDto);
       const accessToken = await this.jwtService.sign(googlePayload);
       return { accessToken };
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 }

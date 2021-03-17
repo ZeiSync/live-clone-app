@@ -13,14 +13,7 @@ async function bootstrap() {
     .setTitle('Live-api')
     .setDescription('Live api endpoint')
     .setVersion('1.0.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'Token',
-      },
-      'accessToken',
-    )
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, swagger);
   SwaggerModule.setup('api', app, document);

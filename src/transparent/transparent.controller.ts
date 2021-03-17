@@ -8,7 +8,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateTransparentDto } from './dto/create-transparent.dto';
 import { Transparent } from './schemas/transparent.schema';
 import { TransparentService } from './transparent.service';
@@ -19,6 +25,7 @@ export class TransparentController {
   constructor(private transparentService: TransparentService) {}
 
   @Get()
+  @ApiResponse({ type: [Transparent] })
   async getAll(): Promise<Transparent[]> {
     return this.transparentService.find({});
   }
@@ -26,8 +33,9 @@ export class TransparentController {
   @Post()
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
-  @ApiBody({ type: CreateTransparentDto })
   @ApiBearerAuth()
+  @ApiCreatedResponse({ type: Transparent })
+  @ApiBody({ type: CreateTransparentDto })
   async create(
     @Body() createTransparentDto: CreateTransparentDto,
   ): Promise<Transparent> {

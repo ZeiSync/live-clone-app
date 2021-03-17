@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/user/decorators/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 
+@ApiTags('Authenticate')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { TransparentType } from './transparent-type.enum';
 
 export type TransparentDocument = Transparent & Document;
 
@@ -12,9 +13,9 @@ export class Transparent {
   description: string;
 
   @Prop({ required: true })
-  type: string;
+  type: TransparentType;
 
-  @Prop()
+  @Prop({ required: true })
   price: number;
 }
 

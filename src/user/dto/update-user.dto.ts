@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 export class UpdateUserDto {
-  _id: Schema.Types.ObjectId;
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password?: string;

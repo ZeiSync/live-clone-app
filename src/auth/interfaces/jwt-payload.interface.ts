@@ -1,12 +1,12 @@
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface IJwtPayload {
-  _id?: Schema.Types.ObjectId;
+  _id?: Types.ObjectId;
   name: string;
   description?: string;
   email: string;
   phone?: string;
   locale?: string;
   picture?: string;
-  googleId: string;
+  googleId?: string;
 }

@@ -47,11 +47,11 @@ export class CreateEventDto {
   currency: CurrencyEnum;
 
   @IsBoolean()
-  @ApiProperty()
+  @ApiProperty({ default: false })
   isLive: boolean;
 
   @IsBoolean()
-  @ApiProperty()
+  @ApiProperty({ default: false })
   isPublish: boolean;
 
   ownerId: Types.ObjectId;

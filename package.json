@@ -37,6 +37,7 @@
     "fs-extra": "^9.1.0",
     "handlebars": "^4.7.7",
     "joi": "^17.4.0",
+    "moment": "^2.29.1",
     "mongoose": "^5.11.19",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",

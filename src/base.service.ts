@@ -3,7 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Model, Document, FilterQuery, Types } from 'mongoose';
+import { Model, Document, FilterQuery } from 'mongoose';
 
 @Injectable()
 export abstract class BaseService<T extends Document> {
@@ -33,7 +33,7 @@ export abstract class BaseService<T extends Document> {
   }
 
   async findById(
-    id: Types.ObjectId,
+    id: string,
     projection: string | Record<string, unknown> = {},
     options: Record<string, unknown> = {},
   ): Promise<T> {
@@ -71,10 +71,8 @@ export abstract class BaseService<T extends Document> {
     }
   }
 
-  async update(id: Types.ObjectId, updateModelDto: any): Promise<T> {
+  async update(id: string, updateModelDto: any): Promise<T> {
     try {
-      console.log(id);
-      console.log(updateModelDto);
       return await this.model.findByIdAndUpdate(id, updateModelDto);
     } catch (error) {
       throw new InternalServerErrorException(error);

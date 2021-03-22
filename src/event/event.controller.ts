@@ -9,8 +9,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Types } from 'mongoose';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ParseObjectIdPipe } from 'src/pipes/objectid.pipes';
 import { GetUser } from 'src/user/decorators/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
@@ -31,17 +37,26 @@ export class EventController {
     return this.eventService.find({});
   }
 
+  @Get('my-event')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @ApiResponse({ type: [Event] })
+  async getUserEvent(@GetUser() user: User): Promise<Event[]> {
+    return this.eventService.find({ ownerId: user['_id'] });
+  }
+
   @Get(':id')
-  @ApiResponse({ type: Event })
+  @ApiOkResponse({ type: Event })
   async getEventById(
-    @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
+    @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<Event> {
     return this.eventService.findById(id);
   }
 
   @Post()
-  @ApiBody({ type: CreateEventDto })
   @ApiBearerAuth()
+  @ApiBody({ type: CreateEventDto })
+  @ApiCreatedResponse({ type: Event })
   @UseGuards(AuthGuard())
   async createEvent(
     @GetUser() user: User,
@@ -61,10 +76,14 @@ export class EventController {
   @Put(':id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
+  @ApiBody({ type: UpdateEventDto })
+  @ApiOkResponse({ type: Event })
   async updateEvent(
-    @Param('id') id: Types.ObjectId,
+    @Param('id', ParseObjectIdPipe) id: string,
     @Body(ValidationPipe) updateEventDto: UpdateEventDto,
-  ) {
-    return this.eventService.update(id, updateEventDto);
+    @GetUser() user: User,
+  ): Promise<Event> {
+    console.log(updateEventDto);
+    return this.eventService.updateEvent(id, updateEventDto, user);
   }
 }

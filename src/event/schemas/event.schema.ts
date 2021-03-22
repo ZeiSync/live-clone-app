@@ -40,16 +40,16 @@ export class Event {
   @ApiProperty()
   currency: CurrencyEnum;
 
-  @Prop()
-  @ApiProperty()
+  @Prop({ default: false })
+  @ApiProperty({ default: false })
   isLive: boolean;
 
-  @Prop()
-  @ApiProperty()
+  @Prop({ default: false })
+  @ApiProperty({ default: false })
   isPublish: boolean;
 
   @Prop({ type: mongooseSchema.Types.ObjectId, ref: 'User', required: true })
-  @ApiProperty()
+  @ApiProperty({ type: String })
   ownerId: User;
 }
 

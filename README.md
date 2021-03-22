@@ -44,7 +44,7 @@ $ yarn start:dev
 # production mode
 $ yarn start:prod
 ```
-
+>**[Checkout Api docs](localhost:3006/api-docs)**
 ## Test
 
 ```bash

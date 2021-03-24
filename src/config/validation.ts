@@ -12,4 +12,7 @@ export const validationSchema = Joi.object({
   CLIENT_ID: Joi.string().required(),
   CLIENT_SECRET: Joi.string().required(),
   CALLBACK_URL: Joi.string().required(),
+  CLOUDNAME: Joi.string().required(),
+  APIKEY: Joi.string().required(),
+  APISECRET: Joi.string().required(),
 });

@@ -5,6 +5,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
+  IsUrl,
 } from 'class-validator';
 import { CurrencyEnum } from '../schemas/currency.enum';
 
@@ -17,8 +18,7 @@ export class UpdateEventDto {
   @ApiProperty()
   description?: string;
 
-  // @IsUrl() // need file upload for this
-  @IsNotEmpty()
+  @IsUrl()
   @ApiProperty()
   thumbnailUrl?: string;
 

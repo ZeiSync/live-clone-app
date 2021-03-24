@@ -83,7 +83,6 @@ export class EventController {
     @Body(ValidationPipe) updateEventDto: UpdateEventDto,
     @GetUser() user: User,
   ): Promise<Event> {
-    console.log(updateEventDto);
     return this.eventService.updateEvent(id, updateEventDto, user);
   }
 }

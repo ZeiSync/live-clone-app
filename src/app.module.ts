@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TransparentModule } from './transparent/transparent.module';
 import { EventModule } from './event/event.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EventModule } from './event/event.module';
     AuthModule,
     TransparentModule,
     EventModule,
+    UploadModule,
   ],
 })
 export class AppModule {}

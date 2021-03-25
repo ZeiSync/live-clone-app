@@ -73,7 +73,9 @@ export abstract class BaseService<T extends Document> {
 
   async update(id: string, updateModelDto: any): Promise<T> {
     try {
-      return await this.model.findByIdAndUpdate(id, updateModelDto);
+      return await this.model.findByIdAndUpdate(id, updateModelDto, {
+        new: true,
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

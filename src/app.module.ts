@@ -19,6 +19,7 @@ import { UploadModule } from './upload/upload.module';
     MongooseModule.forRoot(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     }),
     UserModule,
     AuthModule,

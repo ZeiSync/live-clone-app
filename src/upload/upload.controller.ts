@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/utils/upload';
 import { UploadService } from './upload.service';
@@ -17,6 +17,23 @@ export class UploadController {
   constructor(private uploadService: UploadService) {}
 
   @Post()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        thumbnailUrl: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiOkResponse({
+    schema: {
+      type: 'string',
+    },
+  })
   @UseInterceptors(
     FileInterceptor('thumbnailUrl', {
       storage: diskStorage({

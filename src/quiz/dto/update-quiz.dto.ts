@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsOptional } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { Answer } from '../schema/answer.schema';
 
 export class UpdateQuizDto {
@@ -12,11 +12,6 @@ export class UpdateQuizDto {
   description: string;
 
   @IsOptional()
-  @IsMongoId()
-  @ApiProperty()
-  event: string;
-
-  @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ type: [Answer] })
   answers: Answer[];
 }

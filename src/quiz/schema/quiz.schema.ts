@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { string } from 'joi';
 import { Document, Schema as mongooseSchema } from 'mongoose';
 import { Event } from 'src/event/schemas/event.schema';
 import { Answer, AnswerSchema } from './answer.schema';
@@ -17,14 +18,19 @@ export class Quiz {
   description: string;
 
   @Prop({
+    type: mongooseSchema.Types.ObjectId,
+    ref: 'Event',
+    required: true,
+    immutable: true,
+  })
+  @ApiProperty({ type: String })
+  event: Event;
+
+  @Prop({
     type: [AnswerSchema],
   })
-  @ApiProperty()
+  @ApiProperty({ type: [Answer] })
   answers: Answer[];
-
-  @Prop({ type: mongooseSchema.Types.ObjectId, ref: 'Event', required: true })
-  @ApiProperty()
-  event: Event;
 }
 
 export const QuizSchema = SchemaFactory.createForClass(Quiz);

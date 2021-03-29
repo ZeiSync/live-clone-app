@@ -15,6 +15,6 @@ export class CreateQuizDto {
   @ApiProperty()
   event: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: [Answer] })
   answers: Answer[];
 }

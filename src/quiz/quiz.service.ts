@@ -40,15 +40,8 @@ export class QuizService extends BaseService<QuizDocument> {
     }
   }
 
-  async updateQuiz(id, user, updateQuizDto) {
-    // const event = await this.eventService.findById(updateQuizDto.event);
-    const quiz = await this.quizModel
-      .findOne({
-        _id: id,
-        event: updateQuizDto.event,
-      })
-      .populate('event')
-      .lean();
+  async updateQuiz(id: string, user: User, updateQuizDto: UpdateQuizDto) {
+    const quiz = await this.quizModel.findById(id).populate('event').lean();
 
     if (!quiz) {
       throw new BadRequestException('quiz_not_found');
@@ -60,10 +53,33 @@ export class QuizService extends BaseService<QuizDocument> {
       throw new BadRequestException('this_event_is_not_your');
     }
 
-    const updateQuiz: UpdateQuizDto = { ...quiz, event: quiz.event['_id'] };
+    const updateQuiz: UpdateQuizDto = {
+      ...quiz,
+      ...updateQuizDto,
+      answers: updateQuizDto.answers ? updateQuizDto.answers : quiz.answers,
+    };
 
     try {
-      return await this.update(id, updateQuizDto);
+      return await this.update(id, updateQuiz);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async deleteQuiz(id: string, user: User) {
+    const quiz = await this.quizModel.findById(id).populate('event').lean();
+
+    if (!quiz) {
+      throw new BadRequestException('quiz_not_found');
+    }
+    if (!quiz.event) {
+      throw new BadRequestException('event_not_found');
+    }
+    if (quiz.event['ownerId'].toString() !== user['_id'].toString()) {
+      throw new BadRequestException('this_event_is_not_your');
+    }
+    try {
+      return await this.delete({ _id: id });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

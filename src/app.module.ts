@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { TransparentModule } from './transparent/transparent.module';
 import { EventModule } from './event/event.module';
 import { UploadModule } from './upload/upload.module';
+import { QuizModule } from './quiz/quiz.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UploadModule } from './upload/upload.module';
     TransparentModule,
     EventModule,
     UploadModule,
+    QuizModule,
   ],
 })
 export class AppModule {}

@@ -60,7 +60,9 @@ export abstract class BaseService<T extends Document> {
 
   async create(createModelDto: Partial<Record<keyof T, unknown>>): Promise<T> {
     try {
+      console.log(createModelDto);
       const model = new this.model(createModelDto);
+      console.log(model);
       return await model.save();
     } catch (error) {
       if (error.code === 11000) {

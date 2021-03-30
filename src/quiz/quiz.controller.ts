@@ -7,6 +7,8 @@ import {
   Post,
   Put,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -40,6 +42,7 @@ export class QuizController {
   @Post()
   @ApiBody({ type: CreateQuizDto })
   @ApiCreatedResponse({ type: Quiz })
+  @UsePipes(ValidationPipe)
   async createQuiz(
     @GetUser() user: User,
     @Body() createQuizDto: CreateQuizDto,
@@ -50,6 +53,7 @@ export class QuizController {
   @Put('/:id')
   @ApiBody({ type: UpdateQuizDto })
   @ApiOkResponse({ type: Quiz })
+  @UsePipes(ValidationPipe)
   async updateQuiz(
     @Param('id', ParseObjectIdPipe) id: string,
     @GetUser() user: User,

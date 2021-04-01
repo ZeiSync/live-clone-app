@@ -27,7 +27,7 @@ import { EventService } from './event.service';
 import { Event } from './schemas/event.schema';
 
 @ApiTags('Event')
-@Controller('event')
+@Controller('events')
 export class EventController {
   constructor(private eventService: EventService) {}
 

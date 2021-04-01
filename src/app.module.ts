@@ -5,7 +5,7 @@ import { configuration } from './config/configuration';
 import { validationSchema } from './config/validation';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { TransparentModule } from './transparent/transparent.module';
+import { PricingModule } from './pricing/pricing.module';
 import { EventModule } from './event/event.module';
 import { UploadModule } from './upload/upload.module';
 import { QuizModule } from './quiz/quiz.module';
@@ -25,7 +25,7 @@ import { NotificationModule } from './notification/notification.module';
     }),
     UserModule,
     AuthModule,
-    TransparentModule,
+    PricingModule,
     EventModule,
     UploadModule,
     QuizModule,

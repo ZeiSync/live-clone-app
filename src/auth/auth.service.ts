@@ -34,7 +34,7 @@ export class AuthService {
       }
       delete user.password;
       const payload: IJwtPayload = { ...user };
-      const accessToken = await this.jwtService.sign(payload);
+      const accessToken = await this.jwtService.sign(payload.name);
       return { accessToken };
     } catch (error) {
       throw new UnauthorizedException('Incorrect email or password');
@@ -83,7 +83,7 @@ export class AuthService {
         ...googlePayload,
       };
       await this.userService.update(user['_id'], updateUserDto);
-      const accessToken = await this.jwtService.sign(googlePayload);
+      const accessToken = await this.jwtService.sign(googlePayload.name);
       return { accessToken };
     } catch (error) {
       throw new InternalServerErrorException(error);

@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
-import { TransparentType } from './transparent-type.enum';
+import { PricingType } from './pricinng-type.enum';
 
-export type TransparentDocument = Transparent & Document;
+export type PricingDocument = Pricing & Document;
 
 @Schema({ timestamps: true })
-export class Transparent {
+export class Pricing {
   @Prop({ required: true })
   @ApiProperty()
   name: string;
@@ -17,11 +17,11 @@ export class Transparent {
 
   @Prop({ required: true })
   @ApiProperty()
-  type: TransparentType;
+  type: PricingType;
 
   @Prop({ required: true })
   @ApiProperty()
   price: number;
 }
 
-export const TransparentSchema = SchemaFactory.createForClass(Transparent);
+export const PricingSchema = SchemaFactory.createForClass(Pricing);

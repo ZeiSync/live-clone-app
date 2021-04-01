@@ -27,7 +27,7 @@ import { Quiz } from './schema/quiz.schema';
 
 @ApiTags('Quiz')
 @UseGuards(AuthGuard())
-@Controller('quiz')
+@Controller('quizzes')
 export class QuizController {
   constructor(private quizService: QuizService) {}
 

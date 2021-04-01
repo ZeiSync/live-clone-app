@@ -24,7 +24,7 @@ import { Notification } from './schema/notification.schema';
 
 @ApiTags('Notification')
 @UseGuards(AuthGuard())
-@Controller('notification')
+@Controller('notifications')
 export class NotificationController {
   constructor(private notificationService: NotificationService) {}
 
